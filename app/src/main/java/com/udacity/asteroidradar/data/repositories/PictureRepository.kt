@@ -10,6 +10,7 @@ import com.udacity.asteroidradar.data.sources.remote.toDomainModel
 import com.udacity.asteroidradar.domain.PictureOfDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 /**
@@ -22,12 +23,15 @@ class PictureRepository(private val database: AsteroidDatabase){
         it?.toDomainModel()
     }
 
-    suspend fun refreshPictureOfDay(){
+    suspend fun refreshPictureOfTheDay(){
         withContext(Dispatchers.IO){
             val picture = Network.asteroidService.getPictureOfTheDay().await()
             val domainPicture = picture.toDomainModel()
-            database.pictureDao.clear()
-            database.pictureDao.insertAll(domainPicture.toDatabaseModel())
+            Timber.i("picture  = $domainPicture")
+            if(domainPicture.mediaType == "image") {
+                database.pictureDao.clear()
+                database.pictureDao.insertAll(domainPicture.toDatabaseModel())
+            }
         }
     }
 }

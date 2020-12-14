@@ -16,7 +16,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-            pictureRepository.refreshPictureOfDay()
+            pictureRepository.refreshPictureOfTheDay()
         }
     }
 
