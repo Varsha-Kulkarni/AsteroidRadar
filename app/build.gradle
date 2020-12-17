@@ -15,6 +15,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Enabling multidex support.
+        multiDexEnabled true
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
     buildTypes {
         release {
@@ -69,6 +75,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.1'

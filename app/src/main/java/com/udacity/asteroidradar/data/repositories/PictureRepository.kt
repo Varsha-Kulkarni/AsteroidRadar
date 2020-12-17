@@ -25,7 +25,7 @@ class PictureRepository(private val database: AsteroidDatabase){
 
     suspend fun refreshPictureOfTheDay(){
         withContext(Dispatchers.IO){
-            val picture = Network.asteroidService.getPictureOfTheDay().await()
+            val picture = Network.pictureOfTheDayService.getPictureOfTheDay()
             val domainPicture = picture.toDomainModel()
             Timber.i("picture  = $domainPicture")
             if(domainPicture.mediaType == "image") {

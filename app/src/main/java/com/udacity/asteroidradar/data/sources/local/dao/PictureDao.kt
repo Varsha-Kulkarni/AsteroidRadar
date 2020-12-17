@@ -17,7 +17,7 @@ interface PictureDao{
     fun getPictureOfTheDay() : LiveData<PictureEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg pictureEntity: PictureEntity)
+    suspend fun insertAll(vararg pictureEntity: PictureEntity)
 
     @Query("Delete from picture_table")
     fun  clear()

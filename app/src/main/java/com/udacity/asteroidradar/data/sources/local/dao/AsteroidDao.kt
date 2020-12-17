@@ -13,12 +13,18 @@ import com.udacity.asteroidradar.data.sources.local.entities.AsteroidEntity
  */
 @Dao
 interface AsteroidDao {
-    @Query("select * from asteroid_table")
-    fun getAsteroids(): LiveData<List<AsteroidEntity>>
+    @Query("select * from asteroid_table order by date(closeApproachDate) asc")
+    fun getSavedAsteroids(): LiveData<List<AsteroidEntity>>
+
+    @Query("select * from asteroid_table where closeApproachDate = :date")
+    fun getTodaysAsteroids(date: String): LiveData<List<AsteroidEntity>>
+
+    @Query("select * from asteroid_table where closeApproachDate between :startDate and :endDate order by date(closeApproachDate) asc")
+    fun getWeeklyAsteroids(startDate: String, endDate: String) : LiveData<List<AsteroidEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroids: AsteroidEntity)
+    suspend fun insertAll(vararg asteroids: AsteroidEntity)
 
-    @Query("delete from asteroid_table")
-    fun clear()
+    @Query("delete from asteroid_table where closeApproachDate < :date")
+    suspend fun removeOldAsteroids(date: String)
 }
