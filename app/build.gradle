@@ -18,10 +18,13 @@ android {
 
         // Enabling multidex support.
         multiDexEnabled true
+
+        buildConfigField("String", "API_KEY", API_KEY)
     }
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    
     buildTypes {
         release {
             minifyEnabled false

@@ -2,7 +2,7 @@ package com.udacity.asteroidradar.data.sources.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.BuildConfig.API_KEY
 import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.data.sources.remote.netwokmodels.PictureFromNetwork
 import retrofit2.Retrofit
@@ -17,7 +17,6 @@ import retrofit2.http.Query
  */
 interface AsteroidApiService{
 
-    @StringAnnotation
     @GET("neo/rest/v1/feed")
     suspend fun getAsteroids(@Query("start_date")startDate:String,
                      @Query("end_date")endDate:String,
@@ -25,7 +24,7 @@ interface AsteroidApiService{
 }
 
 interface PictureOfTheDayService{
-    @JsonAnnotation
+
     @GET("planetary/apod")
     suspend fun getPictureOfTheDay(@Query("api_key")apiKey:String = API_KEY): PictureFromNetwork
 }
@@ -41,6 +40,3 @@ object Network{
     val asteroidService = retrofit.create(AsteroidApiService::class.java)
     val pictureOfTheDayService = retrofit.create(PictureOfTheDayService::class.java)
 }
-
-internal annotation class StringAnnotation
-internal annotation class JsonAnnotation
