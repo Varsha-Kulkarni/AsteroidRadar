@@ -15,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_background">
+        android:background="@color/app_background"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/tv_asteroid_name"
@@ -23,9 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{asteroid.codename}"
-            android:textColor="@color/default_text_color"
             android:layout_marginTop="@dimen/item_margin"
-            app:flow_horizontalBias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toTopOf="@id/tv_asteroid_close_approach_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_margin"
             android:contentDescription="@{asteroid.potentiallyHazardous ? @string/potentially_hazardous_asteroid_image : @string/not_hazardous_asteroid_image}"
-            app:flow_horizontalBias="0.8"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,6 +63,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> asteroidCallback.onClick(asteroid)}"
+            android:contentDescription="@string/null_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

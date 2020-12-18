@@ -36,10 +36,13 @@ class AsteroidsAdapter internal constructor(private val clickListener : Asteroid
 
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.asteroid = getItem(position)
+            val asteroidDetails = getItem(position)
+            it.asteroid = asteroidDetails
             it.asteroidCallback = clickListener
-            Timber.d("asteroid... ${it.asteroid}")
-        }
+            //For better accessibility
+            holder.itemView.contentDescription = "Asteroid $position: ${asteroidDetails.codename} " +
+                    "${asteroidDetails.closeApproachDate} potentially hazardous: " +
+                    "${asteroidDetails.isPotentiallyHazardous}"        }
     }
 
     class AsteroidClickListener(val block: (Asteroid) -> Unit) {
