@@ -17,20 +17,29 @@ import timber.log.Timber
  * Created By Varsha Kulkarni on 29/11/20
  */
 
-class PictureRepository(private val database: AsteroidDatabase){
+class PictureRepository(private val database: AsteroidDatabase) {
 
-    val pictureOfTheDay : LiveData<PictureOfDay> = Transformations.map(database.pictureDao.getPictureOfTheDay()){
-        it?.toDomainModel()
-    }
+    val pictureOfTheDay: LiveData<PictureOfDay> =
+        Transformations.map(database.pictureDao.getPictureOfTheDay()) {
+            it?.toDomainModel()
+        }
 
-    suspend fun refreshPictureOfTheDay(){
-        withContext(Dispatchers.IO){
-            val picture = Network.pictureOfTheDayService.getPictureOfTheDay()
-            val domainPicture = picture.toDomainModel()
-            Timber.i("picture  = $domainPicture")
-            if(domainPicture.mediaType == "image") {
-                database.pictureDao.clear()
-                database.pictureDao.insertAll(domainPicture.toDatabaseModel())
+    suspend fun refreshPictureOfTheDay() {
+        withContext(Dispatchers.IO) {
+            try {
+                val picture = Network.pictureOfTheDayService.getPictureOfTheDay()
+                val domainPicture = picture.toDomainModel()
+                Timber.i("picture  = $domainPicture")
+                if (domainPicture.mediaType == "image") {
+                    database.pictureDao.clear()
+                    database.pictureDao.insertAll(domainPicture.toDatabaseModel())
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Timber.d("Refresh failed ${e.message}")
+                }
+                e.printStackTrace()
+
             }
         }
     }
